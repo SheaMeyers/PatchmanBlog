@@ -8,10 +8,17 @@
         <p>Created on: {{ post.created_date }}</p>
     </div>
 
-    {% if user.is_authenticated %}
+    {% if post.author.get_username == user.get_username %}
         <a href="{% url 'post_edit' pk=post.pk %}">Edit Post</a>
+        <a href="{% url 'post_delete' pk=post.pk %}">Delete Post</a>
+        {% if post.is_published %}
+            <a href="{% url 'post_unpublish' pk=post.pk %}">Unpublish Post</a>
+        {% else %}
+            <a href="{% url 'post_publish' pk=post.pk %}">Publish Post</a>
+        {% endif %}
     {% endif %}
 
+    <h3>Add Reply</h3>
      <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save</button>
@@ -20,25 +27,19 @@
     <h3>Replies</h3>
     {% for reply in post.replies.all %}
         {% if not reply.is_deleted %}
-            {% if user.is_authenticated or reply.approved_reply %}
-            <div>
-                <p>{{ reply.content }}</p>
-                <p>{{ reply.name }}</p>
+            {% if user.is_superuser or reply.approved_reply %}
                 <div>
-                    {{ reply.created_date }}
-                    {% if not reply.approved_reply %}
-                        <a href="{% url 'reply_remove' pk=reply.pk %}"></a>
-                        <a href="{% url 'reply_approve' pk=reply.pk %}"></a>
+                    <p>{{ reply.content }}</p>
+                    <p>{{ reply.name }}</p>
+                    <p>{{ reply.created_date }}</p>
+                    {% if user.is_superuser %}
+                        {% if not reply.approved_reply%}
+                            <a href="{% url 'reply_approve' pk=reply.pk %}">Approve Post</a>
+                        {% endif %}
+                        <a href="{% url 'reply_remove' pk=reply.pk %}">Delete Post</a>
                     {% endif %}
                 </div>
-            </div>
-            {% else %}
-                <p>No replies yet</p>
             {% endif %}
-        {% else %}
-            <p>No replies yet</p>
         {% endif %}
-    {% empty %}
-        <p>No replies yet</p>
     {% endfor %}
 {% endblock %}

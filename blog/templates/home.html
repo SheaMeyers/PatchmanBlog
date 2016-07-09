@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Posts</h1>
     {% for post in posts %}
-        {% if post.is_published %}
+        {% if post.is_published and not post.is_deleted%}
             <div>
                 <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
                 <p>{{ post.content| slice:":300" }}</p>
@@ -11,7 +11,9 @@
             </div>
         {% endif %}
     {% endfor %}
+
     {% if user.is_authenticated %}
         <a href="{% url 'post_new' %}">Create New Post</a>
+        <p>Logged in as: {{ user.get_username }}</p>
     {% endif %}
 {% endblock %}

@@ -57,11 +57,29 @@ def post_edit(request, pk):
     return render(request, 'post_edit.html', {'form': form})
 
 
+def post_publish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.publish()
+    return redirect('post_detail', pk=post.pk)
+
+
+def post_unpublish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.unpublish()
+    return redirect('post_detail', pk=post.pk)
+
+
+def post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect('post_detail', pk=post.pk)
+
+
 @login_required
 def reply_approve(request, pk):
     reply = get_object_or_404(Reply, pk=pk)
     reply.approve()
-    return redirect('blog.views.post_detail', pk=reply.post.pk)
+    return redirect('post_detail', pk=reply.post.pk)
 
 
 @login_required
@@ -69,4 +87,4 @@ def reply_remove(request, pk):
     reply = get_object_or_404(Reply, pk=pk)
     post_pk = reply.post.pk
     reply.delete()
-    return redirect('blog.views.post_detail', pk=post_pk)
+    return redirect('post_detail', pk=post_pk)

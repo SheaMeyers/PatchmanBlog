@@ -21,6 +21,15 @@ class Post(models.Model):
         return self.replies.filter(approved_reply=True)
 
     def publish(self):
+        self.is_published = True
+        self.save()
+
+    def unpublish(self):
+        self.is_published = False
+        self.save()
+
+    def delete(self):
+        self.is_deleted = True
         self.save()
 
 
