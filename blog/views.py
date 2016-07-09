@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
-from .models import Post
-from .forms import PostForm
+from .models import Post, Reply
+from .forms import PostForm, ReplyForm
 
 
 def home(request):
@@ -12,7 +13,19 @@ def home(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'post_detail.html', {'post': post})
+
+    #Reply Form
+    if request.method == "POST":
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.post = post
+            reply.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = ReplyForm()
+
+    return render(request, 'post_detail.html', {'post': post, 'form': form})
 
 
 def post_new(request):
@@ -42,3 +55,18 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'post_edit.html', {'form': form})
+
+
+@login_required
+def reply_approve(request, pk):
+    reply = get_object_or_404(Reply, pk=pk)
+    reply.approve()
+    return redirect('blog.views.post_detail', pk=reply.post.pk)
+
+
+@login_required
+def reply_remove(request, pk):
+    reply = get_object_or_404(Reply, pk=pk)
+    post_pk = reply.post.pk
+    reply.delete()
+    return redirect('blog.views.post_detail', pk=post_pk)

@@ -6,7 +6,7 @@
         <div>
             <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
             <p>{{ post.content| slice:":300" }}</p>
-            <p>Number of Replies:  ADD NUMBER OF REPLIES </p>
+            <p>Number of Replies:  {{ post.approved_replies.count }}</p>
         </div>
     {% endfor %}
     {% if user.is_authenticated %}
