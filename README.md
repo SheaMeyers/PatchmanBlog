@@ -4,11 +4,11 @@
  python manage.py runserver
 ```
 
-### Route
+### Home Route
 
 http://127.0.0.1:8000/
 
-### Testing
+### Run Tests
 
 ./manage.py test
 

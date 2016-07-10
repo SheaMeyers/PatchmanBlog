@@ -27,7 +27,7 @@ def post_detail(request, pk):
 
     return render(request, 'post_detail.html', {'post': post, 'form': form})
 
-
+@login_required
 def post_new(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -42,6 +42,7 @@ def post_new(request):
     return render(request, 'post_new.html', {'form': form})
 
 
+@login_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -57,18 +58,21 @@ def post_edit(request, pk):
     return render(request, 'post_edit.html', {'form': form})
 
 
+@login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
     return redirect('post_detail', pk=post.pk)
 
 
+@login_required
 def post_unpublish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.unpublish()
     return redirect('post_detail', pk=post.pk)
 
 
+@login_required
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
