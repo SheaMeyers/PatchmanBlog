@@ -22,6 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'g_ur4-n0eq4y026w^1p+nyc&v4mo@3o&r$_gxxw*$w(813pwsr'
 
+NORECAPTCHA_SITE_KEY = '6LeVuSQTAAAAALEzwbjAkYt0aroa77EhKYbPVAdv'
+NORECAPTCHA_SECRET_KEY = '6LeVuSQTAAAAAFKbxnBcsM3rXO8LfgI-LccUB4yD'
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'nocaptcha_recaptcha',
 ]
 
 MIDDLEWARE_CLASSES = [

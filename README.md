@@ -8,6 +8,17 @@
 
 http://127.0.0.1:8000/
 
+### Testing
+
+./manage.py test
+
+### Requires
+
+[Django](https://www.djangoproject.com/)
+
+[Django Nocaptcha Recaptcha](https://github.com/ImaginaryLandscape/django-nocaptcha-recaptcha)
+* Use ``` pip install django-nocaptcha-recaptcha ``` to install
+
 ## Superuser Credentials
 
 Username: PatchmanAdmin
