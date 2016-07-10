@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>New Post</h1>
-    <form method="POST">{% csrf_token %}
-        {{ form }}
-        <button type="submit">Save</button>
-    </form>
+    <div class="panel panel-info">
+        <h1 class="panel-heading">New Post</h1>
+        <div class="panel-body">
+            <form method="POST">{% csrf_token %}
+                <div>Title:</div>
+                <div>{{ form.title }}</div>
+                <div>Content</div>
+                <div>{{ form.content }}</div>
+                <button type="submit" class="btn btn-default">Save</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

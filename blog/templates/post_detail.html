@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.content }}</p>
+    <div class="panel panel-primary">
+        <h2 class="panel-heading">{{ post.title }}</h2>
+        <p class="panel-body">{{ post.content }}</p>
         <p>By: {{ post.author }}</p>
         <p>Created on: {{ post.created_date }}</p>
     </div>
 
-    {% if post.author.get_username == user.get_username %}
+    {% if post.author.get_username == user.get_username or user.is_superuser %}
         <a href="{% url 'post_edit' pk=post.pk %}">Edit Post</a>
         <a href="{% url 'post_delete' pk=post.pk %}">Delete Post</a>
         {% if post.is_published %}
@@ -18,28 +18,39 @@
         {% endif %}
     {% endif %}
 
-    <h3>Add Reply</h3>
-     <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+    <div class="panel panel-info">
+        <h3 class="panel-heading">Add Reply</h3>
+         <form method="POST" class="post-form">{% csrf_token %}
+            <div class="panel-body">
+                <div>Name:</div>
+                <div>{{ form.name }}</div>
+                <div>Email:</div>
+                <div>{{ form.email }}</div>
+                <div>Content:</div>
+                <div>{{ form.content }}</div>
+                <button type="submit" class="btn btn-default">Save</button>
+            </div>
+        </form>
+    </div>
 
-    <h3>Replies</h3>
-    {% for reply in post.replies.all %}
-        {% if not reply.is_deleted %}
-            {% if user.is_superuser or reply.approved_reply %}
-                <div>
-                    <p>{{ reply.content }}</p>
-                    <p>{{ reply.name }}</p>
-                    <p>{{ reply.created_date }}</p>
-                    {% if user.is_superuser %}
-                        {% if not reply.approved_reply%}
-                            <a href="{% url 'reply_approve' pk=reply.pk %}">Approve Post</a>
+    <div class="panel panel-success">
+        <h3 class="panel-heading">Replies</h3>
+        {% for reply in post.replies.all %}
+            {% if not reply.is_deleted %}
+                {% if user.is_superuser or reply.approved_reply %}
+                    <div class="panel-body">
+                        <p>{{ reply.content }}</p>
+                        <p>{{ reply.name }}</p>
+                        <p>{{ reply.created_date }}</p>
+                        {% if user.is_superuser %}
+                            {% if not reply.approved_reply%}
+                                <a href="{% url 'reply_approve' pk=reply.pk %}">Approve Post</a>
+                            {% endif %}
+                            <a href="{% url 'reply_remove' pk=reply.pk %}">Delete Post</a>
                         {% endif %}
-                        <a href="{% url 'reply_remove' pk=reply.pk %}">Delete Post</a>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
             {% endif %}
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}

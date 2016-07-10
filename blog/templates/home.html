@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Posts</h1>
+    <h1 class="'label label-info">Posts</h1>
     {% for post in posts %}
-        {% if post.is_published and not post.is_deleted%}
-            <div>
-                <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-                <p>{{ post.content| slice:":300" }}</p>
-                <p>Number of Replies:  {{ post.approved_replies.count }}</p>
-            </div>
-        {% endif %}
+        <div class="panel panel-primary">
+            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <p class="panel-body">{{ post.content| slice:":300" }}</p>
+            <p>Number of Replies:  <span class="badge">{{ post.approved_replies.count }}</span></p>
+        </div>
     {% endfor %}
 
     {% if user.is_authenticated %}

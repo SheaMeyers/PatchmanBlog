@@ -7,7 +7,7 @@ from .forms import PostForm, ReplyForm
 
 
 def home(request):
-    posts = Post.objects.filter(is_published=True).order_by('created_date')
+    posts = Post.objects.filter(is_published=True, is_deleted=False).order_by('created_date')
     return render(request, 'home.html', {'posts': posts})
 
 
