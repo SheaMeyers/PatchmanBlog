@@ -8,8 +8,10 @@
         <p>Created on: {{ post.created_date }}</p>
     </div>
 
-    {% if post.author.get_username == user.get_username or user.is_superuser %}
+    {% if post.author.get_username == user.get_username %}
         <a href="{% url 'post_edit' pk=post.pk %}">Edit Post</a>
+    {% endif %}
+    {% if post.author.get_username == user.get_username or user.is_superuser %}
         <a href="{% url 'post_delete' pk=post.pk %}">Delete Post</a>
         {% if post.is_published %}
             <a href="{% url 'post_unpublish' pk=post.pk %}">Unpublish Post</a>

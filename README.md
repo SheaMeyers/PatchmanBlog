@@ -4,6 +4,11 @@
  python manage.py runserver
 ```
 
+### Login Route
+
+http://127.0.0.1:8000/admin/
+* After logging in you'll need to go to the home route yourself, there is no redirect
+
 ### Home Route
 
 http://127.0.0.1:8000/
