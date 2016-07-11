@@ -5,8 +5,15 @@
         <h1 class="panel-heading">New Post</h1>
         <div class="panel-body">
             <form method="POST">{% csrf_token %}
+                {% if form.title.errors %}
+                    <div class="alert alert-danger">{{ form.title.errors }}</div>
+                {% endif %}
                 <div>Title:</div>
                 <div>{{ form.title }}</div>
+
+                {% if form.content.errors %}
+                    <div class="alert alert-danger">{{ form.content.errors }}</div>
+                {% endif %}
                 <div>Content</div>
                 <div>{{ form.content }}</div>
                 <button type="submit" class="btn btn-default">Save</button>
